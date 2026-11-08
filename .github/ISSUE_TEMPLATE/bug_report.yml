@@ -1,0 +1,75 @@
+name: Bug report
+description: Report a reproducible problem in Anchr.
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not attach real documents, decrypted material, private keys, or deployer keys.
+        For security issues, use SECURITY.md instead of a public issue.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened, and what did you expect?
+      placeholder: A clear and short description.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the page and the action.
+      placeholder: |
+        1. Open ...
+        2. Select ...
+        3. See ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      options:
+        - Landing page
+        - Sign-in and passkey flow
+        - Vault seal and fetch
+        - Crypto-shred
+        - Anchor registry contract
+        - Vault contract
+        - Deploy scripts
+        - Repository checks
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      description: The crypto path depends on Web Crypto, so the browser matters.
+      placeholder: Chrome 131 on macOS
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output
+      description: Remove document contents and keys before pasting.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I removed secrets, keys, and real document content from this report.
+          required: true
+        - label: I searched existing issues for the same problem.
+          required: true

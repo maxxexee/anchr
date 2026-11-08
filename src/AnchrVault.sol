@@ -20,28 +20,18 @@ contract AnchrVault {
 
     mapping(bytes32 => Document) public documents;
     mapping(bytes32 => bytes) public encryptedData;
-    mapping(bytes32 => bytes) public wrappedKeys;       // AES key wrapped with TOTP-derived key
-    mapping(bytes32 => bytes32) public totpCommitments;  // H(TOTP_secret) per document
+    mapping(bytes32 => bytes) public wrappedKeys; // AES key wrapped with TOTP-derived key
+    mapping(bytes32 => bytes32) public totpCommitments; // H(TOTP_secret) per document
     mapping(address => bytes32) public walletTotpCommitment; // H(master_secret) per wallet
-    mapping(address => bytes32[]) public walletDocuments;    // all doc IDs per wallet
+    mapping(address => bytes32[]) public walletDocuments; // all doc IDs per wallet
     bytes32[] public documentIds;
     uint256 public docCount;
 
     event DocumentSealed(
-        uint256 indexed seq,
-        bytes32 indexed id,
-        string name,
-        address indexed sender,
-        uint256 timestamp,
-        uint256 size
+        uint256 indexed seq, bytes32 indexed id, string name, address indexed sender, uint256 timestamp, uint256 size
     );
 
-    event DocumentShredded(
-        uint256 indexed seq,
-        bytes32 indexed id,
-        address indexed sender,
-        uint256 timestamp
-    );
+    event DocumentShredded(uint256 indexed seq, bytes32 indexed id, address indexed sender, uint256 timestamp);
 
     /// @notice Seal a document with TOTP-protected key.
     /// @param name Filename.
@@ -90,13 +80,17 @@ contract AnchrVault {
     }
 
     /// @notice Fetch encrypted document bytes and wrapped key.
-    function fetch(bytes32 id) external view returns (
-        string memory name,
-        string memory mimeType,
-        bytes memory content,
-        bytes memory key,
-        Document memory doc
-    ) {
+    function fetch(bytes32 id)
+        external
+        view
+        returns (
+            string memory name,
+            string memory mimeType,
+            bytes memory content,
+            bytes memory key,
+            Document memory doc
+        )
+    {
         doc = documents[id];
         require(doc.sender != address(0), "Document not found");
         require(!doc.shredded, "Document was crypto-shredded");

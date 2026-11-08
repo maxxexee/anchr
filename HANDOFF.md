@@ -2,10 +2,10 @@
 
 **Project:** Anchr — Zero-Knowledge Legal Vault  
 **Hackathon:** BLI Legal Tech Hackathon  
-**Repo:** https://github.com/geekman58748/anchr  
+**Repo:** https://github.com/maxxexee/anchr  
 **Live:** https://anchr-60kj.onrender.com/  
 **Date:** September 4–5, 2026  
-**Author:** geekman58748  
+**Author:** Samuel Osho  
 
 ---
 
@@ -319,7 +319,7 @@ cca4687 Add floating pill navbar + bidirectional blur reveal
 
 > *"It's not just fancy — it's genuinely more secure for your use case. The legal/compliance crowd will eat this up because it maps directly to their threat model: insider threats, regulatory compulsion, data breaches."*
 
-> *"I repeat, no Codebuff affiliations"*
+> *"I repeat, no tooling or agent affiliations on the submission"*
 
 ---
 
