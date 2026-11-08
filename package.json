@@ -1,0 +1,38 @@
+{
+  "name": "anchr",
+  "version": "1.0.0",
+  "description": "Zero-knowledge legal vault. Documents are encrypted in the browser, only a Merkle root is anchored on-chain, and the key can be destroyed to crypto-shred.",
+  "main": "anchr-core.js",
+  "scripts": {
+    "test": "forge test",
+    "fmt": "forge fmt --check",
+    "check": "node scripts/check-repo.mjs"
+  },
+  "keywords": [
+    "zero-knowledge",
+    "encryption",
+    "legal-tech",
+    "merkle",
+    "solidity",
+    "foundry",
+    "ethereum",
+    "gdpr"
+  ],
+  "author": "Samuel Osho",
+  "license": "MIT",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxxexee/anchr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/maxxexee/anchr/issues"
+  },
+  "homepage": "https://github.com/maxxexee/anchr#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ethers": "^6.17.0"
+  }
+}

@@ -16,12 +16,7 @@ contract AnchrAnchorRegistry {
     bytes32[] public anchoredRoots;
     uint256 public rootCount;
 
-    event RootAnchored(
-        uint256 indexed seq,
-        bytes32 indexed root,
-        address indexed sender,
-        uint256 timestamp
-    );
+    event RootAnchored(uint256 indexed seq, bytes32 indexed root, address indexed sender, uint256 timestamp);
 
     /// @notice Anchor a Merkle root on-chain.
     /// @param root The 32-byte Merkle root hash to anchor.
@@ -33,12 +28,7 @@ contract AnchrAnchorRegistry {
         rootCount++;
         seq = rootCount;
 
-        anchors[root] = Anchor({
-            root: root,
-            sender: msg.sender,
-            timestamp: block.timestamp,
-            seq: seq
-        });
+        anchors[root] = Anchor({root: root, sender: msg.sender, timestamp: block.timestamp, seq: seq});
 
         anchoredRoots.push(root);
 

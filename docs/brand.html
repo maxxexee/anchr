@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Anchr brand artboards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f5f0;
+    --cream-2: #f4f1ea;
+    --cream-3: #ede9e0;
+    --ink: #0b0b0b;
+    --ink-soft: #1c1c1a;
+    --teal: #3c878b;
+    --teal-deep: #2f6c70;
+    --teal-light: #e8f4f4;
+    --muted: #8a8884;
+    --muted-2: #6b6864;
+    --border: #e6e2d9;
+    --border-2: #dcd7cb;
+    --red: #e85d5d;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .board { position: relative; overflow: hidden; background: var(--cream); display: none; }
+  .board.is-active { display: block; }
+
+  h1, h2 { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(11, 11, 11, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11, 11, 11, 0.045) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 55% 45%, #000 25%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse at 55% 45%, #000 25%, transparent 78%);
+  }
+
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    background: rgba(60, 135, 139, 0.18);
+  }
+
+  /* ---------- banner 2560 x 800 ---------- */
+  #banner { width: 2560px; height: 800px; }
+
+  #banner .inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 160px;
+    gap: 120px;
+  }
+
+  #banner .glow-a { width: 900px; height: 900px; left: -260px; top: -430px; }
+  #banner .glow-b { width: 620px; height: 620px; right: -160px; bottom: -340px; background: rgba(60, 135, 139, 0.12); }
+
+  .copy { max-width: 1150px; position: relative; z-index: 2; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 21px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--teal-deep);
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+
+  .rule { width: 62px; height: 2px; background: var(--teal); display: inline-block; }
+
+  h1 { margin: 0 0 26px; font-size: 150px; line-height: 1; letter-spacing: -0.045em; }
+  h1 em { font-style: normal; color: var(--teal); }
+
+  .lede {
+    margin: 0;
+    font-size: 33px;
+    line-height: 1.45;
+    color: var(--muted-2);
+    max-width: 980px;
+    font-weight: 400;
+  }
+
+  .rule-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 50px;
+    font-size: 21px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+  /* pipeline card */
+  .card {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 740px;
+    background: #fffdfa;
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    padding: 50px 54px;
+    box-shadow: 0 30px 80px -40px rgba(11, 11, 11, 0.28);
+  }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 38px;
+  }
+
+  .card-title { font-size: 20px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+  .chip {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 17px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(60, 135, 139, 0.35);
+    color: var(--teal-deep);
+    background: var(--teal-light);
+  }
+
+  .steps { display: grid; gap: 26px; }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .step .n {
+    flex: 0 0 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--teal-light);
+    color: var(--teal-deep);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+  }
+
+  .step .body { flex: 1; }
+  .step .label { font-size: 23px; font-weight: 600; margin-bottom: 6px; }
+  .step .sub { font-size: 17px; color: var(--muted); }
+  .step .hash { font-family: "JetBrains Mono", monospace; font-size: 16px; color: var(--teal-deep); }
+
+  .step.shred .n { background: rgba(232, 93, 93, 0.12); color: var(--red); }
+
+  /* ---------- social 1280 x 640 ---------- */
+  #social { width: 1280px; height: 640px; }
+
+  #social .inner {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 90px;
+  }
+
+  #social .glow-a { width: 640px; height: 640px; left: 50%; top: -300px; transform: translateX(-50%); }
+
+  #social h2 { position: relative; z-index: 2; margin: 0 0 20px; font-size: 104px; letter-spacing: -0.045em; }
+  #social h2 em { font-style: normal; color: var(--teal); }
+
+  #social p {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    font-size: 27px;
+    color: var(--muted-2);
+    max-width: 860px;
+    line-height: 1.5;
+  }
+
+  #social .eyebrow { font-size: 16px; margin-bottom: 24px; }
+
+  #social .foot {
+    position: relative;
+    z-index: 2;
+    margin-top: 40px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 16px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+  <section id="banner" class="board">
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+    <div class="grid"></div>
+    <div class="inner">
+      <div class="copy">
+        <div class="eyebrow"><span class="rule"></span>Zero-knowledge legal vault</div>
+        <h1>An<em>chr</em></h1>
+        <p class="lede">Documents are encrypted in the browser, only a Merkle root is anchored on-chain, and destroying the key crypto-shreds the record.</p>
+        <div class="rule-row mono">
+          <span class="dot"></span><span>Seal</span>
+          <span class="dot"></span><span>Prove</span>
+          <span class="dot"></span><span>Shred</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Seal pipeline</span>
+          <span class="chip">Sepolia</span>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <span class="n">01</span>
+            <div class="body">
+              <div class="label">Encrypt in the browser</div>
+              <div class="sub">AES-256-GCM, key never leaves the device</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="n">02</span>
+            <div class="body">
+              <div class="label">Anchor the root</div>
+              <div class="sub hash">0x9f3c4d81...a71b</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="n">03</span>
+            <div class="body">
+              <div class="label">Prove it existed</div>
+              <div class="sub">Immutable timestamp, no content on-chain</div>
+            </div>
+          </div>
+          <div class="step shred">
+            <span class="n">04</span>
+            <div class="body">
+              <div class="label">Crypto-shred</div>
+              <div class="sub">Destroy the key, the ciphertext is unrecoverable</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="social" class="board">
+    <div class="glow glow-a"></div>
+    <div class="grid"></div>
+    <div class="inner">
+      <div class="eyebrow"><span class="rule"></span>Legal infrastructure<span class="rule"></span></div>
+      <h2>An<em>chr</em></h2>
+      <p>A zero-knowledge vault for legal documents. Seal, prove, shred.</p>
+      <div class="foot">Seal. Prove. Shred.</div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var board = new URLSearchParams(window.location.search).get('board') || 'banner';
+      var target = document.getElementById(board) || document.getElementById('banner');
+      target.classList.add('is-active');
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/maxxexee/anchr/blob/main/SECURITY.md
+    about: Report a vulnerability privately. Do not open a public issue.
+  - name: Run it locally
+    url: https://github.com/maxxexee/anchr#quickstart
+    about: The hosted demo is offline, so start the static site yourself before filing a UI issue.

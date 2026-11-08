@@ -1,0 +1,17 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  # forge-std is pinned by the submodule commit, so bump it with
+  # git submodule update --remote lib/forge-std rather than Dependabot.

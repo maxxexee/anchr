@@ -1,38 +1,28 @@
-# Compiler files
+# Foundry build output
 cache/
 out/
-
-# Commonly ignored directories
-.logs/
-.ignore/
-
-# Ignores development broadcast logs
-!/broadcast
-/broadcast/*/31337/
+broadcast/
 /broadcast/**/dry-run/
+foundry.lock
 
-# Docs
-docs/
+# Foundry init boilerplate that is not part of the product
+src/Counter.sol
+script/Counter.s.sol
+test/Counter.t.sol
 
-# Dotenv file
+# Dependencies
+node_modules/
+
+# Secrets
 .env
 .env.*
 !.env.example
-lib/
-broadcast/
-cache/
-out/
-foundry.lock
-foundry.toml
-src/Counter.sol
-script/Counter.s.sol
-test/
 
-# Node
-node_modules/
-package-lock.json
-package.json
+# Local scratch
+.logs/
+.ignore/
+test-decrypted*
+*.log
 
-# Test artifacts
-e2e-*.mjs
-test-decrypted.*
+# OS
+.DS_Store
