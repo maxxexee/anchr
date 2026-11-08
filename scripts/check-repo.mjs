@@ -252,6 +252,16 @@ check('no private keys committed', () => {
   }
 });
 
+check('anchoring never fabricates a transaction', () => {
+  const core = read('anchr-core.js');
+  if (/0xMOCK/.test(core)) {
+    throw new Error('anchr-core.js still writes a placeholder anchor sender');
+  }
+  if (/mock:\s*true/.test(core)) {
+    throw new Error('anchr-core.js still reports a mock anchor as anchored');
+  }
+});
+
 check('.env is not tracked', () => {
   const files = git(['ls-files']).split('\n').filter(Boolean);
   if (files.includes('.env')) throw new Error('.env is tracked');

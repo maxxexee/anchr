@@ -453,8 +453,11 @@
         if (typeof anchrSealOnChain === 'function' && window.ethereum) {
           await anchrSealOnChain(doc, () => {});
         } else if (typeof anchrAnchor === 'function') {
-          const tx = await anchrAnchor(doc);
-          doc.anchored = true; doc.anchorTx = tx;
+          const res = await anchrAnchor(doc);
+          doc.anchored = true;
+          doc.anchorTx = res.tx;
+          doc.anchorChain = res.chain;
+          doc.anchorBlock = res.block;
           await dbPut('docs', doc);
         } else {
           alert('Connect wallet to anchor on-chain.');

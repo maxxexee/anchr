@@ -233,8 +233,8 @@ async function anchrList() {
 
 /* ---------- Blockchain anchoring ---------- */
 /* AnchrAnchor posts the Merkle root to Ethereum Sepolia testnet.
- * Uses ethers.js loaded from CDN. Falls back to a local mock if
- * no wallet is available so the demo always works. */
+ * Uses ethers.js loaded from CDN. Throws if no signing path works:
+ * a document is never reported as anchored without a real transaction. */
 
 // ABI for our AnchorRegistry contract (simplified — stores merkle roots)
 const ANCHOR_ABI = [
@@ -273,11 +273,12 @@ function encodeAnchorCalldata(root) {
  * Strategy:
  *  1. Try direct RPC signing (bypasses MetaMask EIP-7702)
  *  2. Fall back to MetaMask if no PK available
- *  3. Fall back to mock if all else fails
+ *  3. Otherwise fail loudly, leaving the record anchored = false
  */
 async function anchrAnchor(record) {
   const root = prefixedRoot(record.rootHex);
   const calldata = encodeAnchorCalldata(root);
+  let lastError = null;
 
   // Try direct signing via stored private key (bypasses EIP-7702)
   const storedPK = sessionStorage.getItem('anchr-pk');
@@ -301,6 +302,7 @@ async function anchrAnchor(record) {
       return { tx: receipt.hash, chain: 'sepolia', block: Number(receipt.blockNumber), mock: false };
     } catch (err) {
       console.warn('Direct signing failed:', err.message);
+      lastError = err;
     }
   }
 
@@ -343,33 +345,31 @@ async function anchrAnchor(record) {
       return { tx: receipt.hash, chain: 'sepolia', block: Number(receipt.blockNumber), mock: false };
     } catch (err) {
       console.warn('MetaMask anchor failed:', err.message);
-      // If gas estimation failed, the root may already be anchored or
-      // the RPC returned a parse error — fall through to mock with a warning
-      if (err.message && err.message.includes('missing revert data')) {
-        console.warn('Gas estimation failed — likely a MetaMask/RPC issue. Saving locally.');
-      }
+      lastError = err;
     }
   }
 
-  // Mock fallback
-  const mockHash = '0x' + Array.from({length: 64}, () => '0123456789abcdef'[Math.floor(Math.random() * 16)]).join('');
-  const mockBlock = 5000000 + Math.floor(Math.random() * 100000);
-  record.anchored = true;
-  record.anchorTx = mockHash;
-  record.anchorChain = 'sepolia-mock';
-  record.anchorBlock = mockBlock;
-  record.anchorTime = Date.now();
-  record.anchorFrom = '0xMOCK';
+  // No signing path worked. Never invent a transaction hash: a fabricated
+  // anchor renders as verified while proving nothing on-chain.
+  record.anchored = false;
+  record.anchorTx = null;
+  record.anchorChain = null;
   await dbPut('docs', record);
-  return { tx: mockHash, chain: 'sepolia-mock', block: mockBlock, mock: true };
+  const detail = lastError ? ' Last error: ' + lastError.message : '';
+  throw new Error(
+    'Nothing was anchored and no transaction was sent. The document is still sealed on this device. ' +
+    'Connect a wallet or provide a signing key, then anchor again.' + detail
+  );
 }
 
 /* Verify an anchored root on-chain.
  * Returns { onChain: bool, matched: bool, block: number } */
 async function anchrVerifyAnchor(record) {
   if (!record.anchorTx) return { onChain: false, matched: false };
+  // Older builds wrote a fabricated record with this chain. It was never a
+  // transaction, so it must read as unanchored rather than verified.
   if (record.anchorChain === 'sepolia-mock') {
-    return { onChain: true, matched: true, block: record.anchorBlock, mock: true };
+    return { onChain: false, matched: false };
   }
   if (typeof window.ethereum === 'undefined') return { onChain: false, matched: false };
   try {

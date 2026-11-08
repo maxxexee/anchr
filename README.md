@@ -13,7 +13,7 @@
 
 Anchr is a zero-knowledge vault for legal documents. A file is encrypted in the browser, a Merkle root is computed over the ciphertext, and only that root is anchored on-chain. The document itself never leaves the device, and destroying the key crypto-shreds the record.
 
-> **Prototype.** The contracts are deployed on Sepolia and the browser flows run, but nothing here is audited. The hosted demo is offline. When no wallet or signing key is available the anchor step writes a local mock record instead of a transaction, so treat an anchor as unproven unless it has a transaction hash you can open on Etherscan.
+> **Prototype.** The contracts are deployed on Sepolia and the browser flows run, but nothing here is audited. The hosted demo is offline. If no wallet or signing key is available the anchor step fails and says so instead of inventing a transaction, so a document is only ever marked anchored when there is a hash you can open on Etherscan.
 
 ## Contents
 
@@ -86,7 +86,7 @@ The dashboard numbers are built-in sample data. The vault counts are real local 
 6. `anchrVerify` recomputes the root from the stored ciphertext and compares it with the anchored root.
 7. `anchrShred` deletes the local record and drops the key, and the vault contract deletes the on-chain copy.
 
-Anchoring tries three paths in order: direct signing with a session key, then MetaMask, then a local mock record that is clearly not a transaction. Only the first two produce an Etherscan link.
+Anchoring tries direct signing with a session key first, then MetaMask. If neither works the call throws, the record stays `anchored = false`, and the page reports that nothing was sent. The previous build fabricated a mock transaction hash in that case, which made an unanchored document look verified; those legacy records now read as unanchored.
 
 ## Architecture
 
@@ -256,7 +256,7 @@ forge script script/DeployVault.s.sol --rpc-url $SEPOLIA_RPC_URL --private-key $
 ## Known gaps
 
 - The hosted demo on Render is offline, so there is no public URL right now.
-- The anchor step falls back to a local mock record when no signing path is available. A mock anchor is not a transaction and proves nothing on-chain.
+- Anchoring needs a wallet or a signing key. Without one it fails, so a demo run on a fresh browser cannot show an anchor.
 - The dashboard figures, audit log, and chain of custody are built-in sample data, not a queried index.
 - Browser crypto, storage, and anchoring have no automated tests. Only the contracts are covered.
 - The direct signing path keeps a private key in session storage for the session.
@@ -267,7 +267,7 @@ forge script script/DeployVault.s.sol --rpc-url $SEPOLIA_RPC_URL --private-key $
 ## Roadmap
 
 - Add a browser-side test suite for seal, verify, and shred with a mocked provider.
-- Replace the mock anchor fallback with an explicit failure state.
+- Recover legacy mock records: offer to re-anchor a document that was sealed before the fallback was removed.
 - Add subresource integrity and a pinned ethers build.
 - Index anchors into a read API so the dashboard shows real data.
 - Get an external review of the vault contract and the key wrap.
